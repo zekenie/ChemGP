@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+	<title>Tutorial One. Periodic Trends</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="../chemdoodle/sketcher/jquery-ui-1.8.7.custom.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../chemdoodle/sketcher/jquery-ui-1.8.7.custom.css">
+	<link rel="stylesheet" type="text/css" href="http://orgo.la/library/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../chemdoodle/ChemDoodleWeb.css">
+	<script src="../chemdoodle/ChemDoodleWeb-libs.js"></script>
+	<script src="../chemdoodle/ChemDoodleWeb.js"></script>
+	<script src="../chemdoodle/sketcher/ChemDoodleWeb-sketcher.js"></script>
+	<script src="../chemdoodle/additions/electronegativity.js"></script>
+	<script src="../chemdoodle/additions/ionizationEnergy.js"></script>
+	
+	<script src="http://orgo.la/library/bootstrap/js/bootstrap.min.js"></script>
+
+
+	<style>
+		canvas,.ChemDoodleWebComponent{
+			border:none;
+		}
+	</style>
+</head>
+<body>
+<div class="container-fluid" style="margin-top:1.3em;">
+	<div class="navbar navbar-fixed-bottom">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">
+				  Orgo<span style="color:#A03030;">la</span>
+				</a>
+				
+				<ul class="nav">
+					<li class="dropdown" id="visualize-menu">
+						<a href="#visualize-menu"><i class="icon-eye-open icon-white dropdown-toggle" data-toggle="dropdown"></i> Visualize <b class="caret icon-white"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="">Graphs</a></li>
+							<li><a href="">Periodic Trends <b class="caret"></b></a></li>
+						</ul>
+					</li>
+					<li><a href=""><i class="icon-hdd icon-white"></i> Save Data</a></li>
+				</ul>
+				
+				<form class="navbar-form pull-right">
+					<!--<select id="emph">
+						<option value="none">[emphasize]</option>
+						<option value="electronegativity">Electronegativity</option>
+						<option value="covalentRadius">Covalent Radius</option>
+						<option value="vdWRadius">Van Der Waals Radius</option>
+						<option value="ionizationEnergy">Ionization Energy</option>
+					</select>-->
+					<input type="text" class="search-query" placeholder="Search...">
+
+				</form>
+			</div>		
+		</div>
+	</div>
+	<div style="text-align: center;">
+		<script>
+			Array.max = function( array ){
+			    return Math.max.apply( Math, array );
+			};
+			Array.min = function( array ){
+			    return Math.min.apply( Math, array );
+			};
+		
+			elementProperties = {
+				electronegativity:{min: 0.7,max:5},
+				covalentRadius:{min:0,max:3},
+				vdWRadius:{min:2,max:3},
+				ionizationEnergy:{min:3.5,max:25}
+			};
+		
+		  	function rgb2hex(rgb) {
+		      rgb = [].slice.call(arguments).join(",").match(/\d+/g);
+		      var hex,l;l=( hex = ( (rgb[0] << 16 ) + ( rgb[1] << 8 ) + +rgb[2] ).toString(16) ).length;
+		         while( l++ < 6 )
+		             hex="0"+hex 
+		      return hex;
+		    }
+			function hexToRgb( hex ) { 
+			
+			        var rgb = parseInt(hex,16)
+			        return {
+			            r: rgb & 255<<16,
+			            g: rgb & 255<<8,
+			            b: rgb & 255 
+			        }
+			}
+			var emphProperty = "none";
+			var periodicTable = new ChemDoodle.PeriodicTableCanvas("trends", (($("body").width()-100) / 18) );
+			
+			periodicTable.drawCell = function(ctx, specs, cell){
+				if(emphProperty != "none"){
+				    this.emphProperty = emphProperty;
+				    
+				    var red = Math.round((255 * cell.element[this.emphProperty])/elementProperties[emphProperty].max);
+				    
+				    var colorStr = red + ",0,0)";
+				    if(red)
+				    	ctx.fillStyle = rgb2hex(colorStr);
+				    else{
+				    	//console.log(cell.element);
+				    	ctx.fillStyle = "#cccccc";
+				    }
+			    	
+			    }else{
+				    ctx.fillStyle = "#ffffff";
+			    }
+			    ctx.fillRect(cell.x, cell.y, cell.dimension, cell.dimension);
+			    
+			    if(emphProperty != 'none'){
+				    ctx.fillStyle='white';
+			    }else
+				    ctx.fillStyle='black';
+	
+			    ctx.strokeStyle='black';
+			    ctx.strokeRect(cell.x, cell.y, cell.dimension, cell.dimension);
+			   
+			    
+			    ctx.textAlign = 'center';
+			    ctx.textBaseline = 'middle';
+			    ctx.font = '9px Sans-serif';
+			    ctx.fillText(cell.element.atomicNumber,cell.x+cell.dimension/2, (cell.y+cell.dimension/4));
+			    ctx.font = 'bold 17px Sans-serif';
+			    ctx.fillText(cell.element.symbol, cell.x+cell.dimension/2, cell.y+cell.dimension/2);
+			  }
+			  periodicTable.repaint();
+			  
+			  
+			  
+		</script>	
+	</div>
+</div>
+
+	
+	
+
+<script>
+$("#emph").change(function(){
+	emphProperty = $(this).val();
+	periodicTable.repaint();
+});
+$("canvas").css("border","none");
+</script>
+</body>
+</html>

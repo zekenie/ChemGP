@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+	<title>Tutorial One. Periodic Trends</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="../chemdoodle/sketcher/jquery-ui-1.8.7.custom.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../chemdoodle/sketcher/jquery-ui-1.8.7.custom.css">
+	<link rel="stylesheet" type="text/css" href="../chemdoodle/ChemDoodleWeb.css">
+	<script src="../chemdoodle/ChemDoodleWeb-libs.js"></script>
+	<script src="../chemdoodle/ChemDoodleWeb.js"></script>
+	<script src="../chemdoodle/sketcher/ChemDoodleWeb-sketcher.js"></script>
+	<script src="../chemdoodle/additions/electronegativity.js"></script>
+	<script src="../chemdoodle/additions/lonePairs.js"></script>
+	
+	<script src="../classes/ArrowCanvas.js"></script>
+	<script>
+		ChemDoodle.structures.Molecule.prototype.associateAtomsAndBonds = function(){
+			for(var i = 0,ii = this.atoms.length;i<ii;i++)
+				this.atoms[i].setMolecule(this);
+			for(vari = 0,ii = this.bonds.length; i<ii;i++)
+				this.bonds[i].setMolecule(this);
+		};
+		ChemDoodle.structures.Atom.prototype.setMolecule = function(molecule){
+			this.molecule = molecule;
+		};
+		ChemDoodle.structures.Bond.prototype.setMolecule = function(molecule){
+			this.molecule = molecule;
+		};
+		
+		var test;
+		var test = new ChemDoodle.ArrowCanvas('test',200,200);
+		ChemDoodle.iChemLabs.readSMILES("CC(=O)Cl",function(mol){
+			test.loadMolecule(mol);
+			test.addLonePairs();
+			test = mol;
+		});
+		
+		
+	</script>
+</head>
+<body>
+</body>
+</html>

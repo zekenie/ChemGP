@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Scatterplot Matrix</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="../chemdoodle/sketcher/jquery-ui-1.8.7.custom.min.js"></script>
+	<!--<script src="../bootstrap/bootstrap-modal.js"></script>-->
+	<link rel="stylesheet" type="text/css" href="../chemdoodle/sketcher/jquery-ui-1.8.7.custom.css">
+	<link rel="stylesheet" type="text/css" href="http://orgo.la/library/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../chemdoodle/ChemDoodleWeb.css">
+	<script src="../chemdoodle/ChemDoodleWeb-libs.js"></script>
+	<script src="../chemdoodle/ChemDoodleWeb.js"></script>
+	<script src="../chemdoodle/sketcher/ChemDoodleWeb-sketcher.js"></script>
+    <script type="text/javascript" src="../d3/d3.js"></script>
+    <link type="text/css" rel="stylesheet" href="splom.css"/>
+    <script>
+    	var selectedAtoms = [];
+    	Array.prototype.getUnique = function() {
+		    var o = {}, a = []
+		    for (var i = 0; i < this.length; i++) o[this[i]] = 1
+		    for (var e in o) a.push(e)
+		    return a
+		}
+    </script>
+  </head>
+  <body>
+  	<div class="draggable" style="position:fixed; right: 5px;">
+  		<script>
+  			var emphTable = new ChemDoodle.PeriodicTableCanvas("emphTable",19);
+  			emphTable.drawCell = function(ctx, specs, cell){
+	  			selectedAtoms = selectedAtoms.getUnique();
+	  			for(var i = 0,ii = selectedAtoms.length;i<ii;i++){
+	  				if(cell.element.atomicNumber == parseInt(selectedAtoms[i])){
+	  					ctx.fillStyle = "#c10000";
+	  					ctx.fillRect(cell.x, cell.y, cell.dimension, cell.dimension);
+	  				}
+	  			}
+	  			
+			    ctx.strokeStyle='black';
+			    ctx.strokeRect(cell.x, cell.y, cell.dimension, cell.dimension);
+			    ctx.font = '12px Sans-serif';
+			    ctx.fillStyle='black';
+			    ctx.textAlign = 'center';
+			    ctx.textBaseline = 'middle';
+			    ctx.fillText(cell.element.symbol, cell.x+cell.dimension/2, cell.y+cell.dimension/2);
+			  }
+			  emphTable.repaint();
+  		</script>
+  	</div>
+    <div id="chart"></div>
+    
+    <script type="text/javascript" src="splom.js"></script>
+    <script src="../jqui/jquery.ui.core.js"></script>
+	<script src="../jqui/jquery.ui.widget.js"></script>
+	<script src="../jqui/jquery.ui.mouse.js"></script>
+	<script src="../jqui/jquery.ui.draggable.js"></script>
+	<script>
+		$(".draggable").draggable();
+	</script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+ChemDoodle.ELEMENT.H.lonePairs = 0;
+ChemDoodle.ELEMENT.C.lonePairs = 0;
+ChemDoodle.ELEMENT.N.lonePairs = 1;
+ChemDoodle.ELEMENT.O.lonePairs = 2;
+ChemDoodle.ELEMENT.F.lonePairs = 3;
+ChemDoodle.ELEMENT.Si.lonePairs = 0;
+ChemDoodle.ELEMENT.P.lonePairs = 1;
+ChemDoodle.ELEMENT.S.lonePairs = 2;
+ChemDoodle.ELEMENT.Cl.lonePairs = 3;
+ChemDoodle.ELEMENT.Br.lonePairs = 	3;
+ChemDoodle.ELEMENT.I.lonePairs = 	3;

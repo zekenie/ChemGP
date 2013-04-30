@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <title>Presentation</title>
+
+    <meta charset='utf-8'>
+    <script src='http://html5slides.googlecode.com/svn/trunk/slides.js'></script>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+     <script src="../chemdoodle/sketcher/jquery-ui-1.8.7.custom.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../chemdoodle/sketcher/jquery-ui-1.8.7.custom.css">
+	<link rel="stylesheet" type="text/css" href="http://orgo.la/library/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="../chemdoodle/ChemDoodleWeb.css">
+	<script src="../chemdoodle/ChemDoodleWeb-libs.js"></script>
+	<script src="../chemdoodle/ChemDoodleWeb.js"></script>
+	<script src="../chemdoodle/sketcher/ChemDoodleWeb-sketcher.js"></script>
+	<script src="../chemdoodle/additions/electronegativity.js"></script>
+	<script src="../chemdoodle/additions/ionizationEnergy.js"></script>
+	<script src="../chemdoodle/additions/lonePairs.js"></script>
+	
+	<script src="../classes/ArrowCanvas.js"></script>
+  </head>
+  
+  <style type="text/css">
+	  .element{
+		  border: 3px solid black;
+		  height: 63px;
+		  width: 75px;
+		  text-align: center;
+		  font-size: 2em;
+		  padding-top: 0.3em;
+	  }
+
+    
+  </style>
+
+  <body style='display: none'>
+
+    <section class='slides layout-regular template-default'>
+
+        
+
+      <article>
+        <h1>
+          Get ready for Orgo
+        </h1>
+        <p><a href="http://orgo.la">Orgo.la</a></p>
+      </article>
+      
+      <article>
+      	<h3>Woah, gen chem was a while ago...</h3><br/><br/><br/>
+      	<img src="../lib/periodic_table.gif"/>
+      </article>
+     	
+     <article>
+     	<h3>Good news for you, we don't care about numbers in orgo, and we only use a few of the elements frequently.</h3><br/>
+     	<script>
+     		var hideOthers = true;
+     		var periodicTable = new ChemDoodle.PeriodicTableCanvas("trends", 40);
+     		periodicTable.drawCell = function(ctx, specs, cell){
+		   
+		    //draw the main cells
+		    ctx.strokeStyle='black';
+		    ctx.strokeRect(cell.x, cell.y, cell.dimension, cell.dimension);
+		    ctx.font = '12px Sans-serif';
+		    if(hideOthers == true){
+		    	if(		cell.element.symbol == "H" ||
+		    			cell.element.symbol == "C" ||
+		    			cell.element.symbol == "N" ||
+		    			cell.element.symbol == "O" ||
+		    			cell.element.symbol == "F" ||
+		    			cell.element.symbol == "Cl" ||
+		    			cell.element.symbol == "Br" ||
+		    			cell.element.symbol == "I" ||
+		    			cell.element.symbol == "P" ||
+		    			cell.element.symbol == "S" ||
+		    			cell.element.symbol == "Na" ||
+		    			cell.element.symbol == "Li" ||
+		    			cell.element.symbol == "Mg" 
+		    	){
+		    		ctx.fillStyle='#c10000';
+		    		ctx.fillRect(cell.x, cell.y, cell.dimension, cell.dimension);
+		    		ctx.fillStyle='white';
+
+		    	}else
+		    		ctx.fillStyle='white';
+		    }else
+		    	ctx.fillStyle='black';
+		    ctx.textAlign = 'center';
+		    ctx.textBaseline = 'middle';
+		    ctx.fillText(cell.element.symbol, cell.x+cell.dimension/2, cell.y+cell.dimension/2);
+		  }
+			  periodicTable.repaint();
+     	</script>
+     </article>
+     
+     <article>
+     	<div class="element">C</div>
+     	
+     	<ul class="build">
+     		<li><strong>The</strong> orgo element</li>
+     		<li>In a neutral state, it <strong>always</strong> makes 4 bonds</li>
+     		<li>In a neutral state, it has <strong>no</strong> lone pairs</li>
+     		<li>Period.</li>
+     		<li>If you wanna know why, look into the octet rule</li>
+     		<li>If you're ever confused, just think back to Methane<br/><br/>
+				<script>
+				  var methane = new ChemDoodle.ViewerCanvas('methane', 100, 100);
+				  // display all carbon labels and turn implicit hydrogens off
+				  methane.specs.atoms_displayAllCarbonLabels_2D = true;
+				  methane.specs.atoms_implicitHydrogens_2D = false;
+				  var mol = ChemDoodle.io.fromJSONDummy({"b":[{"e":1,"b":0},{"e":2,"b":0},{"e":3,"b":0},{"e":4,"b":0}],"a":[{"y":195,"x":276},{"l":"H","y":175,"x":276},{"l":"H","y":195,"x":256},{"l":"H","y":195,"x":296},{"l":"H","y":215,"x":276}]});
+				  // set the number of lone pairs, only the chlorines need three each
+				  
+				  methane.loadMolecule(mol);
+				</script>
+     		</li>
+     		<li>No lone pairs, 4 bonds. Boom.</li>
+     	</ul>
+     </article>
+     
+     <article>
+     	<div class="element">O</div>
+     	
+     	<ul class="build">
+     		<li>In a neutral state, it <strong>always</strong> makes 2 bonds</li>
+     		<li>In a neutral state, it has <strong>2</strong> lone pairs</li>
+     		<li>If you're ever confused, just think back to water<br/><br/>
+				<script>
+				  var water = new ChemDoodle.ArrowCanvas('water', 100, 100);
+				  // display all carbon labels and turn implicit hydrogens off
+				  water.specs.atoms_displayAllCarbonLabels_2D = true;
+				  water.specs.atoms_implicitHydrogens_2D = false;
+				  ChemDoodle.iChemLabs.readSMILES("HOH",function(mol){
+					water.loadMolecule(mol);
+					water.addLonePairs();
+					water = mol;
+				});				
+				</script>
+     		</li>
+     		<li>2 lone pairs, 2 bonds. Ba-bam.</li>
+     	</ul>
+     </article>
+     
+    <!-- <article>
+     	<div class="element">N</div>
+     	
+     	<ul class="build">
+     		<li>In a neutral state, it <strong>always</strong> makes 3 bonds</li>
+     		<li>In a neutral state, it has <strong>1</strong> lone pairs</li>
+     		<li>If you're ever confused, just think back to ammonia<br/><br/>
+				<script>
+				  var nh3 = new ChemDoodle.ArrowCanvas('water', 100, 100);
+				  // display all carbon labels and turn implicit hydrogens off
+				  nh3.specs.atoms_displayAllCarbonLabels_2D = true;
+				  nh3.specs.atoms_implicitHydrogens_2D = false;
+				  ChemDoodle.iChemLabs.readSMILES("HN(H)H",function(mol){
+					nh3.loadMolecule(mol);
+					nh3.addLonePairs();
+					nh3 = mol;
+				});				
+				</script>
+     		</li>
+     		<li>1 lone pair, 3 bonds. The best.</li>
+     	</ul>
+     </article>-->
+      
+    </section>
+	<script>
+		$("article").addClass("nobackground");
+	</script>
+  </body>
+</html>
+
+
+ 
